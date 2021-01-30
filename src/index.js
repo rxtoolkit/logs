@@ -1,10 +1,10 @@
-const get = require ('lodash/get');
+const get = require('lodash/get');
 const winston = require('winston');
 const expressWinston = require('express-winston');
 const { stringify } = require('flatted');
 // require('winston-daily-rotate-file');
 
-const { format } = winston;
+const {format} = winston;
 const { combine, timestamp, json, prettyPrint } = format;
 const { STAGE, SUPPRESS_LOGS, COMMIT_HASH } = process.env;
 
@@ -97,9 +97,4 @@ const requestLogger = function requestLogger() {
 };
 
 // returns an express middleware, which logs requests
-module.exports = {
-  requestLogger,
-  info,
-  error,
-  debug,
-};
+module.exports = {requestLogger, info, error, debug};
