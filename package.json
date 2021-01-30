@@ -1,13 +1,13 @@
 {
   "name": "@buccaneerai/logging-utils",
-  "version": "1.0.8",
+  "version": "1.0.12",
   "description": "Logging utils for Buccaneer",
   "main": "src/index.js",
-  "repository": "git remote add origin https://github.com/buccaneerai/logging-utils.git",
+  "repository": "https://github.com/buccaneerai/logging-utils.git",
   "author": "brian@buccaneer.ai",
   "license": "UNLICENSED",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/buccaneerai"
+    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "test": "mocha ./src/*.test.js --exit"
