@@ -1,4 +1,4 @@
-# @buccaneerai/logger
+# @buccaneerai/logger-utils
 
 ## What you need to know
 * A super simple logging package for our internal services.  
