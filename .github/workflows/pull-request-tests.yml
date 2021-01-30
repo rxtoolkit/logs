@@ -1,10 +1,10 @@
 # https://medium.com/javascript-in-plain-english/publish-update-npm-packages-with-github-actions-e4d786ffd62a
-name: 'Package publish'
+name: 'Pull Request Tests'
 on:
-  release:
-    types: [created]
+  pull_request:
+    types: [opened, reopened, synchronize]
 jobs:
-  test:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,7 +16,5 @@ jobs:
       - run: yarn install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: yarn publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: yarn test
 
