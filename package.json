@@ -1,17 +1,26 @@
 {
-  "name": "@buccaneerai/logger",
-  "version": "1.0.1",
+  "name": "@buccaneerai/logging-utils",
+  "version": "1.0.8",
   "description": "Logging utils for Buccaneer",
   "main": "src/index.js",
   "repository": "git remote add origin https://github.com/buccaneerai/logging-utils.git",
   "author": "brian@buccaneer.ai",
   "license": "UNLICENSED",
   "module": true,
-  "private": true,
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/buccaneerai"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
   "dependencies": {
     "flatted": "^3.1.1",
     "lodash": "^4.17.20",
     "winston": "^3.3.3",
     "winston-express": "^0.1.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1"
   }
 }

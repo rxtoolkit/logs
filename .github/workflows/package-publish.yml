@@ -1,0 +1,21 @@
+# https://medium.com/javascript-in-plain-english/publish-update-npm-packages-with-github-actions-e4d786ffd62a
+name: 'Package publish'
+on:
+  release:
+    types: [created]
+jobs:
+  build:
+   runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@buccaneerai'
+      - run: yarn install
+      - run: yarn test
+      - run: yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
