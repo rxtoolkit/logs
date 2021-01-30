@@ -1,5 +1,5 @@
 # https://medium.com/javascript-in-plain-english/publish-update-npm-packages-with-github-actions-e4d786ffd62a
-name: 'Package publish'
+name: 'Pull Request Tests'
 on:
   pull_request:
     types: [opened, sychronize]
