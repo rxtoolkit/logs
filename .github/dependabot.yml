@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    ignore:
+      dependency-type: development
+    allow:
+      - dependency-name: "lodash"
+        versions: ["4.x"]
+      - dependency-name: "winston"
+        versions: ["3.x"]
+      - dependency-name: "winston-express"
+        versions: ["4.x"]
+

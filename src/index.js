@@ -1,17 +1,19 @@
 const get = require('lodash/get');
+const omit = require('lodash/omit');
 const winston = require('winston');
 const expressWinston = require('express-winston');
 const { stringify } = require('flatted');
 // require('winston-daily-rotate-file');
 
-const {format} = winston;
+const { format } = winston;
 const { combine, timestamp, json, prettyPrint } = format;
-const { STAGE, SUPPRESS_LOGS, COMMIT_HASH } = process.env;
+
+const SUPPRESS_LOGS = get(process.env, 'SUPPRESS_LOGS', false);
 
 const metadata = {
   service: get(process.env, 'SERVICE_NAME', null),
   stage: get(process.env, 'STAGE', null),
-  // sha: get(process.env, 'COMMIT_HASH', null),
+  sha: get(process.env, 'COMMIT_HASH', null),
 };
 
 // Parsing large log entries
@@ -53,7 +55,11 @@ const options = {
     format(info => (SUPPRESS_LOGS ? false : parseLog(300)(info)))(),
     timestamp(),
     json(),
-    prettyPrint()
+    ...(
+      get(process, 'env.NODE_ENV') === 'development'
+      ? [colorize(), prettyPrint()]
+      : []
+    )
   ),
 };
 
@@ -79,20 +85,64 @@ const winstonLogger = winston.createLogger({
   exceptionHandlers: [new winston.transports.Console()],
 });
 
-const log = (level, message, data) => (SUPPRESS_LOGS ? false : winstonLogger[level](message, data));
+const log = (level, message, data) => (
+  SUPPRESS_LOGS
+  ? false
+  : winstonLogger[level](message, data)
+);
 const error = (message, data) => log('error', message, data);
 const info = (message, data) => log('info', message, data);
 const debug = (message, data) => log('debug', message, data);
+
+
+const applyRequestFilter = (req, propName) => {
+  switch (propName) {
+    case 'body':
+      const body = (
+        get(req, 'body.query', '').includes('loginUser')
+        ? 'mutation loginUser { \"email\": \"REDACTED\", \"password\": \"REDACTED\" }'
+        : req[propName]
+      );
+      return body;
+      break;
+    case 'query':
+      const query = (
+        get(req, 'body.query', '').includes('loginUser')
+        ? 'mutation loginUser { \"email\": \"REDACTED\", \"password\": \"REDACTED\" }'
+        : req[propName]
+      );
+      return query;
+      break;
+    default:
+      return req[propName];
+      break;
+  }
+};
+
+const applyResponseFilter = (res, propName) => (
+  propName === 'body' && get(res, `body.data.loginUser`)
+  ? '{\"token\": \"REDACTED\"}'
+  : res[propName]
+);
 
 const requestLogger = function requestLogger() {
   return expressWinston.logger({
     ...options,
     transports,
-    baseMeta: metadata,
-    requestWhitelist: ['body', 'query'],
-    requestBlacklist: ['headers'],
-    responseWhitelist: ['body'],
+    baseMeta: {logType: 'request', ...metadata},
     headerBlacklist: ['Authorization'],
+    // WARNING: do not add a requestWhitelist. It seems to override password
+    // filters.
+    // requestWhitelist: [],
+    responseWhitelist: [
+      'X-RequestId',
+      'body',
+      'headers',
+    ],
+    // Omit login requests
+    requestFilter: applyRequestFilter,
+    // Omit login tokens
+    responseFilter: applyResponseFilter,
   });
 };
 
