@@ -6,7 +6,7 @@ const { stringify } = require('flatted');
 // require('winston-daily-rotate-file');
 
 const { format } = winston;
-const { combine, timestamp, json, prettyPrint } = format;
+const { colorize, combine, timestamp, json, prettyPrint } = format;
 
 const SUPPRESS_LOGS = get(process.env, 'SUPPRESS_LOGS', false);
 
