@@ -11,5 +11,5 @@ logger.debug('a debug message', data);
 
 // Log an error
 const err = new Error('ruh roh');
-logger.error(err.message, {trace: err.trace, ...data});
+logger.error(err.message, {stack: err.stack, ...data});
 ```
