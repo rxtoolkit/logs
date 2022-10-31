@@ -1,5 +1,7 @@
 const get = require('lodash/get');
+const isError = require('lodash/isError');
 const omit = require('lodash/omit');
+const pick = require('lodash/pick');
 const winston = require('winston');
 const expressWinston = require('express-winston');
 const { stringify } = require('flatted');
@@ -90,7 +92,19 @@ const log = (level, message, data) => (
   ? false
   : winstonLogger[level](message, data)
 );
-const error = (message, data) => log('error', message, data);
+const error = (message, data = {}) => {
+  if (isError(message)) {
+    return log(
+      'error',
+      get(message, 'message', null),
+      {
+        ...pick(message, 'message', 'stack'),
+        ...data
+      }
+    );
+  }
+  return log('error', message, data);
+};
 const info = (message, data) => log('info', message, data);
 const debug = (message, data) => log('debug', message, data);
 
