@@ -92,12 +92,15 @@ const log = (level, message, data) => (
   ? false
   : winstonLogger[level](message, data)
 );
-const error = (message, data) => {
+const error = (message, data = {}) => {
   if (isError(message)) {
     return log(
       'error',
       get(message, 'message', null),
-      pick(message, 'message', 'stack')
+      {
+        ...pick(message, 'message', 'stack'),
+        ...data
+      }
     );
   }
   return log('error', message, data);
