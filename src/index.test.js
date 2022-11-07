@@ -8,6 +8,8 @@ describe('index', () => {
     expect(index.info).to.be.a('function');
     expect(index.debug).to.be.a('function');
     expect(index.requestLogger).to.be.an('function');
+    expect(index.trace).to.be.an('function');
+    expect(index.toLog).to.be.an('function');
   });
 
   it('should be able to call logging methods without throwing any errors', () => {
@@ -15,6 +17,8 @@ describe('index', () => {
     index.info('myevent', {foo: 'bar'});
     index.debug('myevent', {foo: 'bar'})
     index.requestLogger();
+    index.toLog();
+    index.trace();
     expect(true).to.be.true;
   });
 });
