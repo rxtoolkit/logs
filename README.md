@@ -1,5 +1,15 @@
 # @rxtk/logs
 
+## Getting started
+
+```bash
+npm i @rxtk/logs
+```
+
+```bash
+yarn add @rxtk/logs
+```
+
 ## API
 
 ### logger
