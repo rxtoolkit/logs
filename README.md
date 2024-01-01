@@ -1,10 +1,10 @@
-# @buccaneerai/logger-utils
+# @rxtk/logs
 
 ## API
 
 ### logger
 ```javascript
-import logger from '@buccaneerai/logging-utils';
+import logger from '@rxtk/logs';
 
 // Log info
 const data = {foo: 'bar'};
@@ -19,7 +19,7 @@ logger.error(err.message, {stack: err.stack, ...data});
 ### toLog
 ```javascript
 import {of} from 'rxjs';
-import logger from '@buccaneerai/logging-utils';
+import logger from '@rxtk/logs';
 
 const input$ = of(...[{data: 'foo'}, {data:'bar'}]);
 input$.pipe(logger.toLog('somelabel'));
@@ -29,7 +29,7 @@ input$.subscribe(); // will log the values of each item emitted with the provide
 ### trace
 ```javascript
 import {throwError} from 'rxjs';
-import logger from '@buccaneerai/logging-utils';
+import logger from '@rxtk/logs';
 
 const err = new Error('zoinks!');
 const input$ = throwError(err);

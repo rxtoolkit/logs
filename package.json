@@ -1,14 +1,11 @@
 {
-  "name": "@buccaneerai/logging-utils",
+  "name": "@rxtk/logs",
   "version": "1.3.0",
   "description": "Logging instrumentation",
   "main": "src/index.js",
-  "repository": "https://github.com/buccaneerai/logging-utils.git",
-  "author": "opensource@buccaneer.ai",
-  "license": "UNLICENSED",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
+  "repository": "https://github.com/rxtoolkit/logs.git",
+  "author": "Buccaneer LLC <opensource@buccaneer.ai>",
+  "license": "MIT",
   "scripts": {
     "test": "mocha \"./{,!(node_modules)/**/}*.test.js\" --exit"
   },
@@ -20,9 +17,12 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
     "chai": "^4.3.6",
     "mocha": "^10.0.0",
     "rxjs-marbles": "^7.0.1",
+    "semantic-release-export-data": "^1.0.1",
     "sinon": "^14.0.2"
   },
   "engines": {
